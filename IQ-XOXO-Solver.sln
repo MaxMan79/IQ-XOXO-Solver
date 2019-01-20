@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQ-XOXO-Solver", "IQ-XOXO-Solver\IQ-XOXO-Solver.csproj", "{0F112721-0F63-4E1F-AD1A-80E8ABF55B46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQ-XOXO-Solver-Test", "IQ-XOXO-Solver-Test\IQ-XOXO-Solver-Test.csproj", "{0C39A8A6-20F9-4BBE-B91D-05C6DF02F9CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0F112721-0F63-4E1F-AD1A-80E8ABF55B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F112721-0F63-4E1F-AD1A-80E8ABF55B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F112721-0F63-4E1F-AD1A-80E8ABF55B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C39A8A6-20F9-4BBE-B91D-05C6DF02F9CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C39A8A6-20F9-4BBE-B91D-05C6DF02F9CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C39A8A6-20F9-4BBE-B91D-05C6DF02F9CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C39A8A6-20F9-4BBE-B91D-05C6DF02F9CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace IQ_XOXO_Solver.Models
 {
@@ -29,12 +30,6 @@ namespace IQ_XOXO_Solver.Models
     public class GameBoard
     {
         // ***************************************************************************
-        // *                               Fields                                    *
-        // ***************************************************************************
-
-        private GridCell[,] _cells;
-
-        // ***************************************************************************
         // *                            Constructors                                 *
         // ***************************************************************************
 
@@ -49,12 +44,12 @@ namespace IQ_XOXO_Solver.Models
         /// <param name="height">Number of cells that make up the height</param>
         public GameBoard(int width, int height)
         {
-            _cells = new GridCell[width, height];
-
             if (width > 0 && height > 0)
             {
+                Cells = new GridCell[width, height];
+
                 Width = width;
-                Height = Height;
+                Height = height;
 
                 // Fill game board with cells, alternating X and O
                 Cell.CellType type;
@@ -72,13 +67,29 @@ namespace IQ_XOXO_Solver.Models
                             type = Cell.CellType.O;
                         }
 
-                        _cells[x, y] = new GridCell(x, y, type);
+                        Cells[x, y] = new GridCell(x, y, type);
+                    }
+                }
+
+                // Create list of boundary cells for neighbor relationships below
+                List<GridCell> boundaryCells = new List<GridCell>();
+
+                for (int x = -1; x <= width; x++)
+                {
+                    for (int y = -1; y <= height; y++)
+                    {
+                        if ((x == -1) || (x == width) ||
+                            (y == -1) || (y == height))
+                        {
+                            boundaryCells.Add(new GridCell(x, y, Cell.CellType.Boundary));
+                        }
                     }
                 }
 
                 // Create neighbor relationships between game board cells
                 List<GridCell> neighbors = new List<GridCell>(8);
                 GridCell currentCell;
+                GridCell boundaryNeighbor;
                 int indexX;
                 int indexY;
 
@@ -86,7 +97,7 @@ namespace IQ_XOXO_Solver.Models
                 {
                     for (int y = 0; y < height; y++)
                     {
-                        currentCell = _cells[x, y];
+                        currentCell = Cells[x, y];
                         neighbors.Clear();
 
                         // Collect surrounding cells into neighbor list
@@ -102,10 +113,19 @@ namespace IQ_XOXO_Solver.Models
                                     if ((indexX < 0) || (indexX >= width) ||
                                         (indexY < 0) || (indexY >= height))
                                     {
-                                        continue;
-                                    }
+                                        // Boundary neighbor
+                                        boundaryNeighbor = boundaryCells.FirstOrDefault(cell => cell.Position.X == indexX && cell.Position.Y == indexY);
 
-                                    neighbors.Add(_cells[indexX, indexY]);
+                                        if (boundaryNeighbor != null)
+                                        {
+                                            neighbors.Add(boundaryNeighbor);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Interior neighbor
+                                        neighbors.Add(Cells[indexX, indexY]);
+                                    }   
                                 }
                             }
                         }
@@ -116,6 +136,8 @@ namespace IQ_XOXO_Solver.Models
             }
             else
             {
+                Cells = new GridCell[0, 0];
+
                 Width = 0;
                 Height = 0;
             }
@@ -124,6 +146,11 @@ namespace IQ_XOXO_Solver.Models
         // ***************************************************************************
         // *                             Properties                                  *
         // ***************************************************************************
+
+        /// <summary>
+        /// Gets the grid cells
+        /// </summary>
+        public GridCell[,] Cells { get; private set; }
 
         /// <summary>
         /// Gets the width in number of cells

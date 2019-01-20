@@ -159,9 +159,7 @@ namespace IQ_XOXO_Solver.Models
         /// Sets the cell's neighbors. 
         /// </summary>
         /// <remarks>
-        /// If the list of neighbors does not contain all eight potential neighbors, 
-        /// boundary cells are created in place of the unset neighbors.  This method
-        /// should only be called once, when the game board is being initialized.
+        /// This method should only be called once, when the game board is being initialized.
         /// </remarks>
         /// <param name="neighbors">List of neighbors</param>
         public void SetNeighbors(List<GridCell> neighbors)
@@ -184,21 +182,6 @@ namespace IQ_XOXO_Solver.Models
                         indexY = offsetY + 1;
 
                         _neighbors[indexX, indexY] = neighbor;
-                    }
-                }
-            }
-
-            // If any neighbors are unset, create boundary neighbors for them
-            for (offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    indexX = offsetX + 1;
-                    indexY = offsetY + 1;
-
-                    if (_neighbors[indexX, indexY] == null)
-                    {
-                        _neighbors[indexX, indexY] = new GridCell(Position.X + offsetX, Position.Y + offsetY, CellType.Boundary);
                     }
                 }
             }
