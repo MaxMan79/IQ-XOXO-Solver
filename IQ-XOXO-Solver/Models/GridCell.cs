@@ -26,10 +26,8 @@ namespace IQ_XOXO_Solver.Models
         /// <param name="x">X-Position</param>
         /// <param name="y">Y-Position</param>
         /// <param name="type">Cell Type</param>
-        public GridCell(int x, int y, CellType type)
-        {
-            Type = type;
-            Position = new Point2D(x, y);
+        public GridCell(int x, int y, CellType type) : base(x, y, type)
+        {           
             _neighbors = new GridCell[3, 3];
             _neighbors[1, 1] = this;
         }

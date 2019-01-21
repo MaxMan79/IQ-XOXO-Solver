@@ -56,8 +56,11 @@
     </ApplicationDefinition>
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\GameBoard.cs" />
+    <Compile Include="Models\GamePiece.cs" />
+    <Compile Include="Models\GamePieceCell.cs" />
     <Compile Include="Models\GridCell.cs" />
     <Compile Include="Models\Point2D.cs" />
+    <Compile Include="Utilities\GamePieceFactory.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">

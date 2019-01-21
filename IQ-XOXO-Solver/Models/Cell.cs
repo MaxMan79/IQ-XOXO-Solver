@@ -6,6 +6,22 @@
     public abstract class Cell
     {
         // ***************************************************************************
+        // *                            Constructors                                 *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cell"/> class.
+        /// </summary>
+        /// <param name="x">X-Position</param>
+        /// <param name="y">Y-Position</param>
+        /// <param name="type">Cell Type</param>
+        protected Cell(int x, int y, CellType type)
+        {
+            Type = type;
+            Position = new Point2D(x, y);
+        }
+
+        // ***************************************************************************
         // *                               Enums                                     *
         // ***************************************************************************
 
