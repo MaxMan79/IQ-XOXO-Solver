@@ -82,17 +82,47 @@ namespace IQ_XOXO_Solver.Models
         }
 
         /// <summary>
-        /// Rotates the game piece 90 degrees clockwise.
+        /// Rotates the game piece 90 degrees clockwise about the origin cell.
         /// </summary>
         public void RotateCw90()
         {
             int temp;
+            int originCellX = _originCell.Position.X;
+            int originCellY = _originCell.Position.Y;
 
+            // 1) Move the piece such that the origin cell is located at (0,0)
+            // 2) Rotate the piece by 90 degrees clockwise
+            // 3) Move the piece back such that the origin cell is loated where it was prior to step 1
             foreach (var cell in _cells)
             {
+                // Pseudo-code
+                //
+                // //----------------------------------------------------------------------
+                // // Subtract out the origin cell's position, to move the piece to (0,0).
+                // //----------------------------------------------------------------------
+                //
+                // aboutOriginX = cell.Position.X - originCellX;
+                // aboutOriginY = cell.Position.Y - originCellY;
+                //
+                // //----------------------------------------------------------------------
+                // // Swap the cell position's x- and y-values (negating the y-value) to rotate the
+                // // cell 90 degrees clockwise about (0,0).  E.g. (3, 2) => (-2, 3)
+                // //----------------------------------------------------------------------
+                //
+                // cell.Position.X = -1 * aboutOriginY;
+                // cell.Position.Y = aboutOriginX;
+                //
+                // //----------------------------------------------------------------------
+                // // Add back the origin cell's position, to move the piece back to its
+                // // position before we began the rotation.
+                // //----------------------------------------------------------------------
+                //
+                // cell.Position.X += originCellX;
+                // cell.Position.Y += originCellY;
+
                 temp = cell.Position.X;
-                cell.Position.X = -cell.Position.Y;
-                cell.Position.Y = temp;
+                cell.Position.X = originCellX - (cell.Position.Y - originCellY);
+                cell.Position.Y = (temp - originCellX) + originCellY;
             }
 
             _rotationDeg += 90;

@@ -37,5 +37,14 @@
         {
             Type = GetOppositeType();
         }
+
+        /// <summary>
+        /// ToString override
+        /// </summary>
+        /// <returns>Formatted string</returns>
+        public override string ToString()
+        {
+            return string.Format("{0} @ {1}", Type.ToString(), Position.ToString());
+        }
     }
 }

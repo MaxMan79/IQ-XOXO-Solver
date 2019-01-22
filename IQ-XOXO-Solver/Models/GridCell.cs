@@ -210,12 +210,40 @@ namespace IQ_XOXO_Solver.Models
         }
 
         /// <summary>
+        /// Gets the list of unoccupied neighbor cells
+        /// </summary>
+        /// <returns>The list of unoccupied neighbor cells</returns>
+        public List<GridCell> GetUnoccupiedNeighbors()
+        {
+            GridCell neighbor;
+            var unoccupiedNeighbors = new List<GridCell>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (!(i == 1 && j == 1))
+                    {
+                        neighbor = _neighbors[i, j];
+
+                        if (!neighbor.IsOccupied)
+                        {
+                            unoccupiedNeighbors.Add(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return unoccupiedNeighbors;
+        }
+
+        /// <summary>
         /// ToString override
         /// </summary>
         /// <returns>Formatted string</returns>
         public override string ToString()
         {
-            return string.Format("{0} @ ({1}, {2})", Type.ToString(), Position.X, Position.Y);
+            return string.Format("{0} @ {1}", Type.ToString(), Position.ToString());
         }
     }
 }

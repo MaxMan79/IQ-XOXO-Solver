@@ -57,6 +57,7 @@
     <Compile Include="Models\AutoSolver.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Extents.cs" />
+    <Compile Include="Models\FloodZone.cs" />
     <Compile Include="Models\GameBoard.cs" />
     <Compile Include="Models\GamePiece.cs" />
     <Compile Include="Models\GamePieceCell.cs" />
