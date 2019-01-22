@@ -42,5 +42,37 @@
         /// Gets or sets the Y-Position
         /// </summary>
         public int Y { get; set; }
+
+        // ***************************************************************************
+        // *                            Public Methods                               *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Adds two points
+        /// </summary>
+        /// <remarks>
+        /// Overrides the '+' operator
+        /// </remarks>
+        /// <param name="a">Operand A</param>
+        /// <param name="b">Operand B</param>
+        /// <returns>A new point equal to A + B</returns>
+        public static Point2D operator +(Point2D a, Point2D b)
+        {
+            return new Point2D(a.X + b.X, a.Y + b.Y);
+        }
+
+        /// <summary>
+        /// Subtracts two points
+        /// </summary>
+        /// <remarks>
+        /// Overrides the '-' operator
+        /// </remarks>
+        /// <param name="a">Operand A</param>
+        /// <param name="b">Operand B</param>
+        /// <returns>A new point equal to A - B</returns>
+        public static Point2D operator -(Point2D a, Point2D b)
+        {
+            return new Point2D(a.X - b.X, a.Y - b.Y);
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace IQ_XOXO_Solver.Models
 
         private bool _isFlipped;
 
+
         // ***************************************************************************
         // *                            Constructors                                 *
         // ***************************************************************************
@@ -43,19 +44,42 @@ namespace IQ_XOXO_Solver.Models
         // ***************************************************************************
 
         /// <summary>
-        /// Gets the game piece color
+        /// Gets the game piece color.
         /// </summary>
         public Color Color { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether this piece has been completely tested at a
-        /// certain game board location.
+        /// Gets a value indicating whether this piece has been completely tested at its
+        /// current game board location.
         /// </summary>
-        public bool HasBeenTested { get; private set; }
+        public bool HasBeenCompletelyTested { get; private set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating if this piece is placed on the board.
+        /// </summary>
+        public bool IsPlaced { get; set; }
 
         // ***************************************************************************
         // *                            Public Methods                               *
         // ***************************************************************************
+
+        /// <summary>
+        /// Moves the origin cell to a new position, with the remaining cells moving with
+        /// the same offset.
+        /// </summary>
+        /// <param name="x">The new x-position</param>
+        /// <param name="y">The new y-position</param>
+        public void MoveTo(int x, int y)
+        {
+            int offsetX = x - _originCell.Position.X;
+            int offsetY = y - _originCell.Position.Y;
+
+            foreach (var cell in _cells)
+            {
+                cell.Position.X += offsetX;
+                cell.Position.Y += offsetY;
+            }
+        }
 
         /// <summary>
         /// Rotates the game piece 90 degrees clockwise.
@@ -80,7 +104,7 @@ namespace IQ_XOXO_Solver.Models
         }
 
         /// <summary>
-        /// Flips the game piece over.  
+        /// Flips the game piece over, centered about the origin cell.  
         /// </summary>
         /// <remarks>
         /// Each cell will be flipped and mirrored across the y-axis.  The game piece has the 
@@ -92,7 +116,7 @@ namespace IQ_XOXO_Solver.Models
             foreach (var cell in _cells)
             {
                 cell.Flip();
-                cell.Position.X = -cell.Position.X;
+                cell.Position.X = (2 * _originCell.Position.X)  - cell.Position.X;
             }
 
             _isFlipped = !_isFlipped;
@@ -117,6 +141,10 @@ namespace IQ_XOXO_Solver.Models
         /// </summary>
         private void Reset()
         {
+            _originCell = _cells.First();
+
+            MoveTo(0, 0);
+
             if (_isFlipped)
             {
                 Flip();
@@ -127,19 +155,13 @@ namespace IQ_XOXO_Solver.Models
                 RotateCw90();
             }
 
-            _originCell = _cells.FirstOrDefault(cell => cell.Position.X == 0 && cell.Position.Y == 0);
-
-            if (_originCell == null)
-            {
-                _originCell = _cells.FirstOrDefault();
-            }
-
             foreach (var cell in _cells)
             {
                 cell.HasBeenTested = false;
             }
 
-            HasBeenTested = false;
+            HasBeenCompletelyTested = false;
+            IsPlaced = false;
         }
     }
 }

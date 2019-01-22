@@ -54,7 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\AutoSolver.cs" />
     <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\Extents.cs" />
     <Compile Include="Models\GameBoard.cs" />
     <Compile Include="Models\GamePiece.cs" />
     <Compile Include="Models\GamePieceCell.cs" />

@@ -14,8 +14,6 @@ namespace IQ_XOXO_Solver.Models
 
         private GridCell[,] _neighbors;
 
-        private bool _isOccupied;
-
         // ***************************************************************************
         // *                            Constructors                                 *
         // ***************************************************************************
@@ -37,6 +35,11 @@ namespace IQ_XOXO_Solver.Models
         // ***************************************************************************
 
         /// <summary>
+        /// Gets or sets the game piece that is occupying this cell
+        /// </summary>
+        public GamePiece GamePiece { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this cell is occupied by a game piece
         /// </summary>
         /// <remarks>
@@ -52,12 +55,8 @@ namespace IQ_XOXO_Solver.Models
                 }
                 else
                 {
-                    return _isOccupied;
+                    return GamePiece != null;
                 }
-            }
-            set
-            {
-                _isOccupied = value;
             }
         }
 
