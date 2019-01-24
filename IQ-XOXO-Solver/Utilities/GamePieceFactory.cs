@@ -33,7 +33,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(0, 4, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.DarkBlue);
+            return new GamePiece(cells, Colors.DarkBlue, "Dark Blue");
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(1, 3, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.YellowGreen);
+            return new GamePiece(cells, Colors.YellowGreen, "Light Green");
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(1, 2, Cell.CellType.O)
             };
 
-            return new GamePiece(cells, Colors.Crimson);
+            return new GamePiece(cells, Colors.Crimson, "Red");
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(1, 3, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.Plum);
+            return new GamePiece(cells, Colors.Plum, "Pink");
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(2, 2, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.LightSkyBlue);
+            return new GamePiece(cells, Colors.LightSkyBlue, "Light Blue");
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(2, 2, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.SeaGreen);
+            return new GamePiece(cells, Colors.SeaGreen, "Dark Green");
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(1, 2, Cell.CellType.O)
             };
 
-            return new GamePiece(cells, Colors.Gold);
+            return new GamePiece(cells, Colors.Gold, "Yellow");
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(-1, 1, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.DodgerBlue);
+            return new GamePiece(cells, Colors.DodgerBlue, "Blue");
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(2, 2, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, Colors.DarkOrange);
+            return new GamePiece(cells, Colors.DarkOrange, "Orange");
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace IQ_XOXO_Solver.Utilities
                 new GamePieceCell(0, 2, Cell.CellType.X)
             };
 
-            return new GamePiece(cells, new Color() { R = 102, G = 51, B = 153, A = 255 });
+            return new GamePiece(cells, new Color() { R = 102, G = 51, B = 153, A = 255 }, "Purple");
         }
     }
 }

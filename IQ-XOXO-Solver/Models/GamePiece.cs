@@ -32,10 +32,11 @@ namespace IQ_XOXO_Solver.Models
         /// Initializes a new instance of the <see cref="GamePiece"/> class.
         /// </summary>
         /// <param name="cells">List of game piece cells</param>
-        public GamePiece(List<GamePieceCell> cells, Color color)
+        public GamePiece(List<GamePieceCell> cells, Color color, string name = null)
         {
             _cells = cells;
             Color = color;
+            Name = name;
 
             Extents = new Extents();
 
@@ -50,6 +51,14 @@ namespace IQ_XOXO_Solver.Models
         // ***************************************************************************
         // *                             Properties                                  *
         // ***************************************************************************
+
+        /// <summary>
+        /// Gets the name
+        /// </summary>
+        /// <remarks>
+        /// Name is optional
+        /// </remarks>
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets the game piece color.
@@ -323,25 +332,33 @@ namespace IQ_XOXO_Solver.Models
 
             while (!IsPlaced && !HasBeenCompletelyTested)
             {
-                success = SetOriginToNextCellOfType(cellUnderOrigin.Type);
+                if (_rotationDeg != 0)
+                {
+                    RotateCw90();
+                }
 
-                if (!success)
-                {    
-                    if (!_isFlipped)
-                    {
-                        // There are no more cells of the given type on this side of the
-                        // piece, so flip it over and start testing again 
-                        Reset();
-                        Flip();
-                    }
-                    else
-                    {
-                        // The piece has been completely tested on both sides and not placed
-                        Reset();
-                        HasBeenCompletelyTested = true;
-                    }
+                if (_rotationDeg == 0)
+                {
+                    success = SetOriginToNextCellOfType(cellUnderOrigin.Type);
 
-                    continue;
+                    if (!success)
+                    {
+                        if (!_isFlipped)
+                        {
+                            // There are no more cells of the given type on this side of the
+                            // piece, so flip it over and start testing again 
+                            Reset();
+                            Flip();
+                        }
+                        else
+                        {
+                            // The piece has been completely tested on both sides and not placed
+                            Reset();
+                            HasBeenCompletelyTested = true;
+                        }
+
+                        continue;
+                    }
                 }
 
                 MoveTo(cellUnderOrigin);
@@ -400,7 +417,19 @@ namespace IQ_XOXO_Solver.Models
         /// <returns>Formatted string</returns>
         public override string ToString()
         {
-            return string.Format("{0} cells @ {1}", CellCount, Extents.ToString());
+            string positions = string.Empty;
+
+            if (IsPlaced)
+            {
+                positions = ", Placed @";
+
+                foreach (var cell in _cells)
+                {
+                    positions += "  " + cell.Position.ToString();
+                }
+            }
+
+            return (string.IsNullOrEmpty(Name) ? "[No Name]" : Name) + positions;
         }
 
         // ***************************************************************************

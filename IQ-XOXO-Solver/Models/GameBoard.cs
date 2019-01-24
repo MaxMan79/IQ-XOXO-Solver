@@ -169,10 +169,14 @@ namespace IQ_XOXO_Solver.Models
         /// <summary>
         /// Gets the flood zones
         /// </summary>
+        /// <param name="pieceTouchingFirstFloodZone">Piece touching the first flood zone in returned list.</param>
         /// <returns>List of flood zones</returns>
-        public List<FloodZone> GetFloodZones()
+        public List<FloodZone> GetFloodZones(GamePiece pieceTouchingFirstFloodZone)
         {
             GridCell seedCell;
+            GridCell firstUnoccupiedNeighbor;
+            FloodZone firstFloodZone;
+            List<GridCell> cellsUnderPiece = new List<GridCell>();
             List<FloodZone> floodZones = new List<FloodZone>();
 
             for (int x = 0; x < Width; x++)
@@ -181,9 +185,35 @@ namespace IQ_XOXO_Solver.Models
                 {
                     seedCell = Cells[x, y];
 
+                    if (pieceTouchingFirstFloodZone != null &&
+                        seedCell.GamePiece == pieceTouchingFirstFloodZone)
+                    {
+                        cellsUnderPiece.Add(seedCell);
+                    }
+
                     if (!seedCell.IsOccupied && !IsCellFlooded(seedCell, floodZones))
                     {
                         floodZones.Add(new FloodZone(seedCell));
+                    }
+                }
+            }
+
+            if (cellsUnderPiece.Count > 0)
+            {
+                foreach (var cell in cellsUnderPiece)
+                {
+                    firstUnoccupiedNeighbor = cell.GetUnoccupiedNeighborsCardinal().FirstOrDefault();
+
+                    if (firstUnoccupiedNeighbor != null)
+                    {
+                        firstFloodZone = floodZones.FirstOrDefault(zone => zone.Contains(firstUnoccupiedNeighbor));
+
+                        if (firstFloodZone != null && floodZones.FirstOrDefault() != firstFloodZone)
+                        {
+                            floodZones.Remove(firstFloodZone);
+                            floodZones.Insert(0, firstFloodZone);
+                            break;
+                        }
                     }
                 }
             }

@@ -24,7 +24,7 @@ namespace IQ_XOXO_Solver.Models
             _rand = new Random();
         }
 
-        public bool Solve()
+        public bool Solve(GamePiece pieceLastPlaced = null)
         {
             if (_placeablePieces.Count == 0)
             {
@@ -36,7 +36,7 @@ namespace IQ_XOXO_Solver.Models
             // this has to be an invalid solution.  Early out.
             bool hasPieceThatFits;
             
-            List<FloodZone> floodZones = _gameBoard.GetFloodZones();
+            List<FloodZone> floodZones = _gameBoard.GetFloodZones(pieceLastPlaced);
      
             foreach (var floodZone in floodZones)
             {
@@ -103,7 +103,7 @@ namespace IQ_XOXO_Solver.Models
                                 _placeablePieces.Remove(currentPiece);
 
                                 // Continue the recursive solve
-                                success = Solve();
+                                success = Solve(currentPiece);
 
                                 if (success)
                                 {

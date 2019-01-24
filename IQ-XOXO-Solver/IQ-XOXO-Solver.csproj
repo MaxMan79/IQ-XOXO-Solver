@@ -62,6 +62,7 @@
     <Compile Include="Models\GamePiece.cs" />
     <Compile Include="Models\GamePieceCell.cs" />
     <Compile Include="Models\GridCell.cs" />
+    <Compile Include="Models\IqXoxoPuzzle.cs" />
     <Compile Include="Models\Point2D.cs" />
     <Compile Include="Utilities\GamePieceFactory.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
