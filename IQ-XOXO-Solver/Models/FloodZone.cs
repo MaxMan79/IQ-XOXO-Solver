@@ -25,6 +25,8 @@ namespace IQ_XOXO_Solver.Models
 
         private List<GridCell> _floodedCells;
 
+        private int _currentCellIndex;
+
         // ***************************************************************************
         // *                            Constructors                                 *
         // ***************************************************************************
@@ -36,6 +38,7 @@ namespace IQ_XOXO_Solver.Models
         public FloodZone(GridCell seedCell)
         {
             _floodedCells = new List<GridCell>();
+            _currentCellIndex = -1;
             Extents = new Extents();
 
             if (!seedCell.IsOccupied)
@@ -43,7 +46,7 @@ namespace IQ_XOXO_Solver.Models
                 _floodedCells.Add(seedCell);
                 Extents.Extend(seedCell);
 
-                Flood(_floodedCells);
+                Flood(seedCell.GetUnoccupiedNeighbors());
 
                 // Sort the flooded cells in descending order based on the number or occupied neighbors
                 var sorter = new List<Tuple<GridCell, int>>();
@@ -67,6 +70,43 @@ namespace IQ_XOXO_Solver.Models
         /// Gets the extents of the flood zone
         /// </summary>
         public Extents Extents { get; private set; }
+
+        // ***************************************************************************
+        // *                            Public Methods                               *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Determines whether the flood zone contains a given cell.
+        /// </summary>
+        /// <param name="cell">The cell to test</param>
+        /// <returns>True if the cell belongs to this flood zone; false otherwise.</returns>
+        public bool Contains(GridCell cell)
+        {
+            return _floodedCells.Contains(cell);
+        }
+
+        /// <summary>
+        /// Gets the next most-bounded cell.  Cells are bounded by neighbors that are occupied.
+        /// </summary>
+        /// <remarks>
+        /// The flooded cells are sorted in descending order by the number of occupied
+        /// neighbors.  This method walks the list one step at a time, starting with the 
+        /// the most-bounded cell to the least-bounded cell in the flood zone.
+        /// </remarks>
+        /// <returns>The next most-bounded cell in the flood zone, or null if all cells are exhausted.</returns>
+        public GridCell GetNextMostBoundedCell()
+        {
+            _currentCellIndex++;
+
+            if (_currentCellIndex < _floodedCells.Count)
+            {
+                return _floodedCells[_currentCellIndex];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         // ***************************************************************************
         // *                           Private Methods                               *

@@ -161,5 +161,57 @@ namespace IQ_XOXO_Solver.Models
         /// Gets the height in number of cells
         /// </summary>
         public int Height { get; private set; }
+
+        // ***************************************************************************
+        // *                            Public Methods                               *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Gets the flood zones
+        /// </summary>
+        /// <returns>List of flood zones</returns>
+        public List<FloodZone> GetFloodZones()
+        {
+            GridCell seedCell;
+            List<FloodZone> floodZones = new List<FloodZone>();
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    seedCell = Cells[x, y];
+
+                    if (!seedCell.IsOccupied && !IsCellFlooded(seedCell, floodZones))
+                    {
+                        floodZones.Add(new FloodZone(seedCell));
+                    }
+                }
+            }
+
+            return floodZones;
+        }
+
+        // ***************************************************************************
+        // *                           Private Methods                               *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Determines is a cell has been flooded.
+        /// </summary>
+        /// <param name="cell">The cell</param>
+        /// <param name="floodZones">Current flood zones</param>
+        /// <returns>True if the cell belongs to one of the current flood zones; false otherwise.</returns>
+        private bool IsCellFlooded(GridCell cell, List<FloodZone> floodZones)
+        {
+            foreach (var floodZone in floodZones)
+            {
+                if (floodZone.Contains(cell))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

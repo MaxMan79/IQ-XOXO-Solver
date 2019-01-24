@@ -238,12 +238,66 @@ namespace IQ_XOXO_Solver.Models
         }
 
         /// <summary>
+        /// Gets a grid cell lying at an absoute position.
+        /// </summary>
+        /// <remarks>
+        /// The grid cell is retrieved without any direct knowledge of the game board.  The grid
+        /// cell of interest is found by traversing the grid neighbor-by-neighbor.  If a boundary
+        /// cell is encountered, the search ends immediately and the boundary is returned.
+        /// </remarks>
+        /// <param name="x">The x-position of the cell of interest</param>
+        /// <param name="y">The y-position of the cell of interest</param>
+        /// <returns>The grid cell lying at (x, y).  If such a cell does not exist, returns the first-encountered boundary cell.</returns>
+        public GridCell GetCellAbsolute(int x, int y)
+        {
+            if ((Position.X == x && Position.Y == y) ||
+                Type == CellType.Boundary)
+            {
+                return this;
+            }
+            else
+            {
+                int relativeOffsetX = Clamp(x - Position.X, -1, 1);
+                int relativeOffsetY = Clamp(y - Position.Y, -1, 1);
+
+                return _neighbors[relativeOffsetX + 1, relativeOffsetY + 1].GetCellAbsolute(x, y);
+            }
+        }
+
+        /// <summary>
         /// ToString override
         /// </summary>
         /// <returns>Formatted string</returns>
         public override string ToString()
         {
             return string.Format("{0} @ {1}", Type.ToString(), Position.ToString());
+        }
+
+        // ***************************************************************************
+        // *                           Private Methods                               *
+        // ***************************************************************************
+
+        /// <summary>
+        /// Clamps an integer between a minimum and maximum
+        /// </summary>
+        /// <param name="value">The value to clamp</param>
+        /// <param name="min">Minimum possible value</param>
+        /// <param name="max">Maximum possible value</param>
+        /// <returns>The clamped value</returns>
+        private int Clamp(int value, int min, int max)
+        {
+            if (value > max)
+            {
+                return max;
+            }
+            else if (value < min)
+            {
+                return min;
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }
