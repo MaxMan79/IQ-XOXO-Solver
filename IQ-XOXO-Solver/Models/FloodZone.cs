@@ -46,19 +46,7 @@ namespace IQ_XOXO_Solver.Models
                 _floodedCells.Add(seedCell);
                 Extents.Extend(seedCell);
 
-                Flood(seedCell.GetUnoccupiedNeighbors());
-
-                // Sort the flooded cells in descending order based on the number or occupied neighbors
-                var sorter = new List<Tuple<GridCell, int>>();
-
-                foreach (var cell in _floodedCells)
-                {
-                    sorter.Add(new Tuple<GridCell, int>(cell, cell.GetOccupiedNeighborCount()));
-                }
-
-                sorter.Sort(new DescendingTupleComparer());
-
-                _floodedCells = (from sorted in sorter select sorted.Item1).ToList();
+                Flood(seedCell.GetUnoccupiedNeighborsCardinal());          
             }
         }
 
@@ -71,9 +59,37 @@ namespace IQ_XOXO_Solver.Models
         /// </summary>
         public Extents Extents { get; private set; }
 
+        /// <summary>
+        /// Gets the number of cells in the flood zone
+        /// </summary>
+        public int ContainsCount
+        {
+            get
+            {
+                return _floodedCells.Count;
+            }
+        }
+
         // ***************************************************************************
         // *                            Public Methods                               *
         // ***************************************************************************
+
+        /// <summary>
+        ///  Sort the flooded cells in descending order based on the number or occupied neighbors
+        /// </summary>
+        public void Sort()
+        {
+            var sorter = new List<Tuple<GridCell, int>>();
+
+            foreach (var cell in _floodedCells)
+            {
+                sorter.Add(new Tuple<GridCell, int>(cell, cell.GetOccupiedNeighborCount()));
+            }
+
+            sorter.Sort(new DescendingTupleComparer());
+
+            _floodedCells = (from sorted in sorter select sorted.Item1).ToList();
+        }
 
         /// <summary>
         /// Determines whether the flood zone contains a given cell.
@@ -108,6 +124,15 @@ namespace IQ_XOXO_Solver.Models
             }
         }
 
+        /// <summary>
+        /// ToString override
+        /// </summary>
+        /// <returns>Formatted string</returns>
+        public override string ToString()
+        {
+            return string.Format("{0} cells @ {1}", ContainsCount, Extents.ToString());
+        }
+
         // ***************************************************************************
         // *                           Private Methods                               *
         // ***************************************************************************
@@ -126,7 +151,7 @@ namespace IQ_XOXO_Solver.Models
                     _floodedCells.Add(cell);
                     Extents.Extend(cell);
 
-                    Flood(cell.GetUnoccupiedNeighbors());
+                    Flood(cell.GetUnoccupiedNeighborsCardinal());
                 }
             }
         }

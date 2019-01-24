@@ -1,6 +1,7 @@
 ﻿using IQ_XOXO_Solver.Models;
 using IQ_XOXO_Solver.Utilities;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace IQ_XOXO_Solver.ViewModels
 {
@@ -51,7 +52,14 @@ namespace IQ_XOXO_Solver.ViewModels
             SetupPuzzle56(board);
 
             var solver = new AutoSolver(board, pieces);
+
+            var watch = Stopwatch.StartNew();
+
             bool success = solver.Solve();
+
+            watch.Stop();
+
+            double seconds = watch.ElapsedMilliseconds / 1000.0;
         }
 
         private void SetupPuzzle01(GameBoard board)

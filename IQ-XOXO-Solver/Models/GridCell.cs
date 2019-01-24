@@ -213,25 +213,41 @@ namespace IQ_XOXO_Solver.Models
         /// Gets the list of unoccupied neighbor cells
         /// </summary>
         /// <returns>The list of unoccupied neighbor cells</returns>
-        public List<GridCell> GetUnoccupiedNeighbors()
+        public List<GridCell> GetUnoccupiedNeighborsCardinal()
         {
             GridCell neighbor;
             var unoccupiedNeighbors = new List<GridCell>();
 
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (!(i == 1 && j == 1))
-                    {
-                        neighbor = _neighbors[i, j];
+            // North neighbor
+            neighbor = _neighbors[1, 0];
 
-                        if (!neighbor.IsOccupied)
-                        {
-                            unoccupiedNeighbors.Add(neighbor);
-                        }
-                    }
-                }
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+            }
+
+            // East neighbor
+            neighbor = _neighbors[2, 1];
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+            }
+
+            // South neighbor
+            neighbor = _neighbors[1, 2];
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+            }
+
+            // West neighbor
+            neighbor = _neighbors[0, 1];
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
             }
 
             return unoccupiedNeighbors;

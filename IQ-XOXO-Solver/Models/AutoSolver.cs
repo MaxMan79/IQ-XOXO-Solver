@@ -14,6 +14,8 @@ namespace IQ_XOXO_Solver.Models
 
         private Random _rand;
 
+        private ulong _leafCount;
+
         public AutoSolver(GameBoard gameBoard, List<GamePiece> allGamePieces)
         {
             _gameBoard = gameBoard;
@@ -42,11 +44,32 @@ namespace IQ_XOXO_Solver.Models
 
                 foreach (var piece in _placeablePieces)
                 {
-                    hasPieceThatFits |= floodZone.Extents.FitsWithin(piece.Extents);
+                    hasPieceThatFits |= floodZone.Extents.FitsWithin(piece.Extents) &&
+                                        floodZone.ContainsCount >= piece.CellCount;
                 }
 
                 if (!hasPieceThatFits)
                 {
+                    _leafCount++;
+                    return false;
+                }
+            }
+
+            bool hasFloodThatFits;
+
+            foreach (var piece in _placeablePieces)
+            {
+                hasFloodThatFits = false;
+
+                foreach (var floodZone in floodZones)
+                {
+                    hasFloodThatFits |= floodZone.Extents.FitsWithin(piece.Extents) &&
+                                        floodZone.ContainsCount >= piece.CellCount;
+                }
+
+                if (!hasFloodThatFits)
+                {
+                    _leafCount++;
                     return false;
                 }
             }
@@ -58,6 +81,8 @@ namespace IQ_XOXO_Solver.Models
 
             foreach (var floodZone in floodZones)
             {
+                floodZone.Sort();
+
                 while ((mostBoundedCell = floodZone.GetNextMostBoundedCell()) != null)
                 {
                     foreach (var piece in _placeablePieces)
@@ -97,6 +122,7 @@ namespace IQ_XOXO_Solver.Models
                 }
             }
 
+            _leafCount++;
             return false;
         }
 

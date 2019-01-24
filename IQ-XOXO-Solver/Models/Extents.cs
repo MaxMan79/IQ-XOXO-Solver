@@ -103,5 +103,14 @@ namespace IQ_XOXO_Solver.Models
             return ((testFit.Width <= Width) && (testFit.Height <= Height)) ||
                    ((testFit.Height <= Width) && (testFit.Width <= Height));
         }
+
+        /// <summary>
+        /// ToString override
+        /// </summary>
+        /// <returns>Formatted string</returns>
+        public override string ToString()
+        {
+            return string.Format("{0} x {1}", Width, Height);
+        }
     }
 }

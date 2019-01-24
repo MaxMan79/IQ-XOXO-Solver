@@ -72,6 +72,17 @@ namespace IQ_XOXO_Solver.Models
         /// </summary>
         public Extents Extents { get; private set; }
 
+        /// <summary>
+        /// Gets the number of cells in the game piece.
+        /// </summary>
+        public int CellCount
+        {
+            get
+            {
+                return _cells.Count;
+            }
+        }
+
         // ***************************************************************************
         // *                            Public Methods                               *
         // ***************************************************************************
@@ -381,6 +392,15 @@ namespace IQ_XOXO_Solver.Models
 
             HasBeenCompletelyTested = false;
             IsPlaced = false;
+        }
+
+        /// <summary>
+        /// ToString override
+        /// </summary>
+        /// <returns>Formatted string</returns>
+        public override string ToString()
+        {
+            return string.Format("{0} cells @ {1}", CellCount, Extents.ToString());
         }
 
         // ***************************************************************************
