@@ -14,6 +14,7 @@ namespace IQ_XOXO_Solver.Models
 
         private GridCell[,] _neighbors;
 
+
         // ***************************************************************************
         // *                            Constructors                                 *
         // ***************************************************************************
@@ -251,6 +252,166 @@ namespace IQ_XOXO_Solver.Models
             }
 
             return unoccupiedNeighbors;
+        }
+
+        /// <summary>
+        /// Gets the list of reachable neighbor cells
+        /// </summary>
+        /// <returns>The list of reachable neighbor cells</returns>
+        public List<GridCell> GetReachableUnoccupiedNeighbors()
+        {
+            bool testedNorthEast = false;
+            bool testedSouthEast = false;
+            bool testedSouthWest = false;
+            bool testedNorthWest = false;
+
+            GridCell neighbor;
+            var unoccupiedNeighbors = new List<GridCell>();
+
+            // North neighbor
+            neighbor = NeighborN;
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+
+                // Check NW
+                neighbor = NeighborNW;
+
+                if (!neighbor.IsOccupied)
+                {
+                    unoccupiedNeighbors.Add(neighbor);
+                    testedNorthWest = true;
+                }
+
+                // Check NE
+                neighbor = NeighborNE;
+
+                if (!neighbor.IsOccupied)
+                {
+                    unoccupiedNeighbors.Add(neighbor);
+                    testedNorthEast = true;
+                }
+            }
+
+            // East neighbor
+            neighbor = NeighborE;
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+
+                // Check NE
+                if (!testedNorthEast)
+                {
+                    neighbor = NeighborNE;
+
+                    if (!neighbor.IsOccupied)
+                    {
+                        unoccupiedNeighbors.Add(neighbor);
+                        testedNorthEast = true;
+                    }
+                }
+
+                // Check SE
+                neighbor = NeighborSE;
+
+                if (!neighbor.IsOccupied)
+                {
+                    unoccupiedNeighbors.Add(neighbor);
+                    testedSouthEast = true;
+                }
+            }
+
+            // South neighbor
+            neighbor = NeighborS;
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+
+                // Check SE
+                if (!testedSouthEast)
+                {
+                    neighbor = NeighborSE;
+
+                    if (!neighbor.IsOccupied)
+                    {
+                        unoccupiedNeighbors.Add(neighbor);
+                        testedSouthEast = true;
+                    }
+                }
+
+                // Check SW
+                neighbor = NeighborSW;
+
+                if (!neighbor.IsOccupied)
+                {
+                    unoccupiedNeighbors.Add(neighbor);
+                    testedSouthWest = true;
+                }
+            }
+
+            // West neighbor
+            neighbor = NeighborW;
+
+            if (!neighbor.IsOccupied)
+            {
+                unoccupiedNeighbors.Add(neighbor);
+
+                // Check SW
+                if (!testedSouthWest)
+                {
+                    neighbor = NeighborSW;
+
+                    if (!neighbor.IsOccupied)
+                    {
+                        unoccupiedNeighbors.Add(neighbor);
+                    }
+                }
+
+                // Check NW
+                if (!testedNorthWest)
+                {
+                    neighbor = NeighborNW;
+
+                    if (!neighbor.IsOccupied)
+                    {
+                        unoccupiedNeighbors.Add(neighbor);
+                    }
+                }
+            }
+
+            return unoccupiedNeighbors;
+        }
+
+        /// <summary>
+        /// Gets the neighbors who are occupied by a given piece
+        /// </summary>
+        /// <param name="piece">The piece</param>
+        /// <returns>List of neighboring cells that are occupied by the given piece.</returns>
+        public List<GridCell> GetNeighborsUnderPiece(GamePiece piece)
+        {
+            GridCell neighbor;
+            List<GridCell> neighborsUnderPiece = new List<GridCell>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (!(i == 1 && j == 1))
+                    {
+                        neighbor = _neighbors[i, j];
+
+                        if (neighbor.GamePiece == piece)
+                        {
+                            neighborsUnderPiece.Add(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return neighborsUnderPiece;
         }
 
         /// <summary>

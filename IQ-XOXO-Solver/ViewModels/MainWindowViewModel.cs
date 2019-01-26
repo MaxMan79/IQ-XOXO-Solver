@@ -21,7 +21,7 @@ namespace IQ_XOXO_Solver.ViewModels
         {
             var puzzle = new IqXoxoPuzzle();
 
-            puzzle.SetupExamplePuzzle56();
+            puzzle.SetupExamplePuzzle101();
 
             var solver = new AutoSolver(puzzle.Board, puzzle.Pieces);
 

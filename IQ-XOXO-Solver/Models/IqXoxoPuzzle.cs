@@ -234,6 +234,99 @@ namespace IQ_XOXO_Solver.Models
             placed = lightBluePiece.PlaceOnGameBoard(Board);
         }
 
+        /// <summary>
+        /// Sets up the 69 Expert puzzle
+        /// </summary>
+        /// <remarks>
+        /// Seven missing pieces.
+        /// </remarks>
+        public void SetupExamplePuzzle69()
+        {
+            ResetBoard();
+
+            bool placed;
+
+            darkBluePiece.RotateCw90();
+            darkBluePiece.MoveTo(4, 4);
+            placed = darkBluePiece.PlaceOnGameBoard(Board);
+
+            bluePiece.Flip();
+            bluePiece.RotateCw90();
+            bluePiece.RotateCw90();
+            bluePiece.MoveTo(5, 4);
+            placed = bluePiece.PlaceOnGameBoard(Board);
+
+            lightGreenPiece.Flip();
+            lightGreenPiece.RotateCw90();
+            lightGreenPiece.MoveTo(9, 4);
+            placed = lightGreenPiece.PlaceOnGameBoard(Board);
+        }
+
+        /// <summary>
+        /// Sets up the 89 Master puzzle
+        /// </summary>
+        /// <remarks>
+        /// Eight missing pieces.
+        /// </remarks>
+        public void SetupExamplePuzzle89()
+        {
+            ResetBoard();
+
+            bool placed;
+
+            darkBluePiece.Flip();
+            darkBluePiece.MoveTo(9, 0);
+            placed = darkBluePiece.PlaceOnGameBoard(Board);
+
+            yellowPiece.RotateCw90();
+            yellowPiece.MoveTo(7, 1);
+            placed = yellowPiece.PlaceOnGameBoard(Board);
+
+        }
+
+        /// <summary>
+        /// Sets up the 96 Master puzzle
+        /// </summary>
+        /// <remarks>
+        /// Eight missing pieces.
+        /// </remarks>
+        public void SetupExamplePuzzle96()
+        {
+            ResetBoard();
+
+            bool placed;
+
+            lightGreenPiece.RotateCw90();
+            lightGreenPiece.RotateCw90();
+            lightGreenPiece.RotateCw90();
+            lightGreenPiece.MoveTo(0, 4);
+            placed = lightGreenPiece.PlaceOnGameBoard(Board);
+
+            pinkPiece.Flip();
+            pinkPiece.RotateCw90();
+            pinkPiece.RotateCw90();
+            pinkPiece.RotateCw90();
+            pinkPiece.MoveTo(6, 3);
+            placed = pinkPiece.PlaceOnGameBoard(Board);
+        }
+
+        /// <summary>
+        /// Sets up the 101 Wizard puzzle
+        /// </summary>
+        /// <remarks>
+        /// Nine missing pieces.
+        /// </remarks>
+        public void SetupExamplePuzzle101()
+        {
+            ResetBoard();
+
+            bool placed;
+
+            darkGreenPiece.Flip();
+            darkGreenPiece.MoveTo(4, 1);
+            placed = darkGreenPiece.PlaceOnGameBoard(Board);
+        }
+
         // ***************************************************************************
         // *                           Private Methods                               *
         // ***************************************************************************

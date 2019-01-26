@@ -385,8 +385,19 @@ namespace IQ_XOXO_Solver.Models
         /// <summary>
         /// Resets the game piece back to its original position/orientation.
         /// </summary>
-        public void Reset()
+        /// <param name="board">The board to remove piece from, if necessary</param>
+        public void Reset(GameBoard board = null)
         {
+            if (IsPlaced)
+            {
+                if (board != null)
+                {
+                    RemoveFromBoard(board);
+                }
+
+                IsPlaced = false;
+            }
+
             _originCell = _cells.First();
             _indexOfCellUnderTest = -1;
 
@@ -407,8 +418,7 @@ namespace IQ_XOXO_Solver.Models
                 cell.HasBeenTested = false;
             }
 
-            HasBeenCompletelyTested = false;
-            IsPlaced = false;
+            HasBeenCompletelyTested = false;    
         }
 
         /// <summary>

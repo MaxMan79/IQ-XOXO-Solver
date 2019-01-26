@@ -41,7 +41,7 @@ namespace IQ_XOXO_Solver.Models
             _currentCellIndex = -1;
             Extents = new Extents();
 
-            if (!seedCell.IsOccupied)
+            if (seedCell != null && !seedCell.IsOccupied)
             {
                 _floodedCells.Add(seedCell);
                 Extents.Extend(seedCell);
@@ -70,6 +70,17 @@ namespace IQ_XOXO_Solver.Models
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the flood zone is empty
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                return _floodedCells.Count == 0;
+            }
+        }
+
         // ***************************************************************************
         // *                            Public Methods                               *
         // ***************************************************************************
@@ -79,11 +90,11 @@ namespace IQ_XOXO_Solver.Models
         /// </summary>
         public void Sort()
         {
-            var sorter = new List<Tuple<GridCell, int>>();
+            var sorter = new List<Tuple<GridCell, double>>();
 
             foreach (var cell in _floodedCells)
             {
-                sorter.Add(new Tuple<GridCell, int>(cell, cell.GetOccupiedNeighborCount()));
+                sorter.Add(new Tuple<GridCell, double>(cell, ImportanceMap.GetImportance(cell)));
             }
 
             sorter.Sort(new DescendingTupleComparer());
@@ -163,9 +174,9 @@ namespace IQ_XOXO_Solver.Models
         /// <summary>
         /// Used to sort the flooded cells in descending order by their number of occupied neighbors
         /// </summary>
-        private class DescendingTupleComparer : IComparer<Tuple<GridCell, int>>
+        private class DescendingTupleComparer : IComparer<Tuple<GridCell, double>>
         {
-            public int Compare(Tuple<GridCell, int> a, Tuple<GridCell, int> b)
+            public int Compare(Tuple<GridCell, double> a, Tuple<GridCell, double> b)
             {
                 return Math.Sign(b.Item2 - a.Item2);
             }

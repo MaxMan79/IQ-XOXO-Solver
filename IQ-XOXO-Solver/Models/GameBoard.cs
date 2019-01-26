@@ -167,55 +167,109 @@ namespace IQ_XOXO_Solver.Models
         // ***************************************************************************
 
         /// <summary>
-        /// Gets the flood zones
+        /// Gets the first flood zone touching a given piece on the board
         /// </summary>
-        /// <param name="pieceTouchingFirstFloodZone">Piece touching the first flood zone in returned list.</param>
-        /// <returns>List of flood zones</returns>
-        public List<FloodZone> GetFloodZones(GamePiece pieceTouchingFirstFloodZone)
+        /// <param name="pieceTouchingFloodZones">The piece</param>
+        /// <returns>List of flood zones touching the given piece. If piece is null, returns all flood zones.</returns>
+        public List<FloodZone> GetFloodZones(GamePiece pieceTouchingFloodZones = null)
         {
             GridCell seedCell;
-            GridCell firstUnoccupiedNeighbor;
-            FloodZone firstFloodZone;
-            List<GridCell> cellsUnderPiece = new List<GridCell>();
             List<FloodZone> floodZones = new List<FloodZone>();
 
-            for (int x = 0; x < Width; x++)
+            if (pieceTouchingFloodZones == null)
             {
-                for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                 {
-                    seedCell = Cells[x, y];
-
-                    if (pieceTouchingFirstFloodZone != null &&
-                        seedCell.GamePiece == pieceTouchingFirstFloodZone)
+                    for (int y = 0; y < Height; y++)
                     {
-                        cellsUnderPiece.Add(seedCell);
-                    }
+                        seedCell = Cells[x, y];
 
-                    if (!seedCell.IsOccupied && !IsCellFlooded(seedCell, floodZones))
-                    {
-                        floodZones.Add(new FloodZone(seedCell));
-                    }
-                }
-            }
-
-            if (cellsUnderPiece.Count > 0)
-            {
-                foreach (var cell in cellsUnderPiece)
-                {
-                    firstUnoccupiedNeighbor = cell.GetUnoccupiedNeighborsCardinal().FirstOrDefault();
-
-                    if (firstUnoccupiedNeighbor != null)
-                    {
-                        firstFloodZone = floodZones.FirstOrDefault(zone => zone.Contains(firstUnoccupiedNeighbor));
-
-                        if (firstFloodZone != null && floodZones.FirstOrDefault() != firstFloodZone)
+                        if (!seedCell.IsOccupied && !IsCellFlooded(seedCell, floodZones))
                         {
-                            floodZones.Remove(firstFloodZone);
-                            floodZones.Insert(0, firstFloodZone);
-                            break;
+                            floodZones.Add(new FloodZone(seedCell));
                         }
                     }
                 }
+            }
+            //else
+            //{
+            //    GridCell cellUnderPiece;
+            //    List<GridCell> unoccupiedNeighbors;
+
+            //    for (int x = 0; x < Width; x++)
+            //    {
+            //        for (int y = 0; y < Height; y++)
+            //        {
+            //            cellUnderPiece = Cells[x, y];
+
+            //            if (cellUnderPiece.GamePiece == pieceTouchingFloodZone)
+            //            {
+            //                unoccupiedNeighbors = cellUnderPiece.GetUnoccupiedNeighborsCardinal();
+
+            //                if (unoccupiedNeighbors.Count > 0)
+            //                {
+            //                    return new FloodZone(unoccupiedNeighbors.First());
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+
+            //return new FloodZone(null);
+
+
+
+            else
+            {
+                GridCell cellUnderPiece;
+                List<GridCell> unoccupiedNeighborsCardinal = new List<GridCell>();
+
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        cellUnderPiece = Cells[x, y];
+
+                        if (cellUnderPiece.GamePiece == pieceTouchingFloodZones)
+                        {
+                            foreach (var cell in cellUnderPiece.GetUnoccupiedNeighborsCardinal())
+                            {
+                                if (!unoccupiedNeighborsCardinal.Contains(cell))
+                                {
+                                    unoccupiedNeighborsCardinal.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var cell in unoccupiedNeighborsCardinal)
+                {
+                    if (!IsCellFlooded(cell, floodZones))
+                    {
+                        floodZones.Add(new FloodZone(cell));
+                    }
+                }
+
+                //if (cellsUnderPiece.Count > 0)
+                //{
+                //    foreach (var cell in cellsUnderPiece)
+                //    {
+                //        firstUnoccupiedNeighbor = cell.GetUnoccupiedNeighborsCardinal().FirstOrDefault();
+
+                //        if (firstUnoccupiedNeighbor != null)
+                //        {
+                //            firstFloodZone = floodZones.FirstOrDefault(zone => zone.Contains(firstUnoccupiedNeighbor));
+
+                //            if (firstFloodZone != null && floodZones.FirstOrDefault() != firstFloodZone)
+                //            {
+                //                floodZones.Remove(firstFloodZone);
+                //                floodZones.Insert(0, firstFloodZone);
+                //                break;
+                //            }
+                //        }
+                //    }
+                //}
             }
 
             return floodZones;
